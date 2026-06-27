@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hermes Recorder
 
-## Getting Started
+Voice-first capture and conversation system. Record → transcribe → distill into structured project context.
 
-First, run the development server:
+## Kimi Handoff — Start Here
+
+This repo contains **documentation only**. Build the MVP by following these docs in order:
+
+1. **[PRD](docs/hermes-recorder-prd.md)** — Product requirements, user flows, success criteria
+2. **[Setup Guide](docs/setup-and-supabase.md)** — Accounts, API keys, env vars, copy-paste Supabase SQL
+3. **[Implementation Spec](docs/implementation-spec.md)** — Repo structure, types, API contracts, prompts, architecture
+4. **[Build Checklist](docs/build-checklist.md)** — Phased build order with acceptance tests
+
+## Quick Start (for builder)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Copy env template
+cp .env.example .env.local
+# Fill in all values — see docs/setup-and-supabase.md
+
+# 2. Run SQL in Supabase SQL Editor
+# Copy from docs/setup-and-supabase.md Section 6
+
+# 3. Scaffold and build per docs/build-checklist.md Phase 0
+npx create-next-app@latest . --typescript --tailwind --eslint --app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next.js 15 · React · Supabase · Deepgram Nova-3 · OpenRouter (configurable models) · OpenAI/Cartesia TTS · Tavily
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## MVP Guardrails
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- One project per session (explicit selection before recording)
+- Deepgram API key server-side only (WebSocket proxy)
+- Distillation runs after session end, sequential per context file
+- No Redis, no mobile app, no cross-workspace search in MVP
